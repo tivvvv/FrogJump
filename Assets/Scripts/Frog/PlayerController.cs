@@ -3,6 +3,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    // 方向枚举
+    private enum Direction
+    {
+        Up, Left, Right
+    }
+
+    // 点击位置
+    private Vector2 touchPosition;
+
     // 预设跳跃距离
     public float jumpDistance;
 
@@ -17,6 +26,9 @@ public class PlayerController : MonoBehaviour
 
     // 是否在跳跃中
     private bool isJump;
+
+    // 跳跃方向
+    private Direction dir;
 
     // 是否可以跳跃
     private bool canJump;
@@ -58,7 +70,6 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("jump");
             moveDistance = jumpDistance;
-            destination = new Vector2(transform.position.x, transform.position.y + moveDistance);
             canJump = true;
         }
     }
@@ -78,7 +89,6 @@ public class PlayerController : MonoBehaviour
         if (context.canceled && buttonHeld && !isJump)
         {
             Debug.Log("LongJump");
-            destination = new Vector2(transform.position.x, transform.position.y + moveDistance);
             canJump = true;
             buttonHeld = false;
         }
@@ -86,7 +96,24 @@ public class PlayerController : MonoBehaviour
 
     public void GetTouchPosition(InputAction.CallbackContext context)
     {
-        Debug.Log("GetTouchPosition");
+        if (context.performed)
+        {
+            touchPosition = Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>());
+            Debug.Log("GetTouchPosition: " + touchPosition);
+            var offset = ((Vector3)touchPosition - transform.position).normalized;
+            if (Mathf.Abs(offset.x) <= 0.7f)
+            {
+                dir = Direction.Up;
+            }
+            else if (offset.x < 0)
+            {
+                dir = Direction.Left;
+            }
+            else
+            {
+                dir = Direction.Right;
+            }
+        }
     }
     #endregion
 
@@ -97,6 +124,18 @@ public class PlayerController : MonoBehaviour
     {
         anim.SetTrigger("Jump");
         canJump = false;
+        switch (dir)
+        {
+            case Direction.Up:
+                destination = new Vector2(transform.position.x, transform.position.y + moveDistance);
+                break;
+            case Direction.Left:
+                destination = new Vector2(transform.position.x - moveDistance, transform.position.y);
+                break;
+            case Direction.Right:
+                destination = new Vector2(transform.position.x + moveDistance, transform.position.y);
+                break;
+        }
     }
 
     #region Animation Event 动画事件
