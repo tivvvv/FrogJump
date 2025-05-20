@@ -37,10 +37,13 @@ public class PlayerController : MonoBehaviour
 
     private Animator anim;
 
+    private SpriteRenderer sr;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -151,6 +154,8 @@ public class PlayerController : MonoBehaviour
     public void StartJumpAnimationEvent()
     {
         isJump = true;
+        // 跳跃过程中修改排序图层
+        sr.sortingLayerName = "Front";
     }
 
     /// <summary>
@@ -159,6 +164,7 @@ public class PlayerController : MonoBehaviour
     public void FinishJumpAnimationEvent()
     {
         isJump = false;
+        sr.sortingLayerName = "Mid";
     }
     #endregion
 
