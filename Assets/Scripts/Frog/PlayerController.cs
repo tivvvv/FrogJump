@@ -62,6 +62,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Border"))
+        {
+            Debug.Log("gg");
+        }
+    }
+
     #region INPUT 输入回调函数
     /// <summary>
     /// 小跳
