@@ -68,6 +68,11 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("gg");
         }
+
+        if (!isJump && other.CompareTag("Obstacle"))
+        {
+            Debug.Log("gg");
+        }
     }
 
     #region INPUT 输入回调函数
