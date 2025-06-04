@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class MoveForwardController : MonoBehaviour
 {
+    // 汽车行驶方向
+    public int dir = 1;
+
     public float speed;
 
     public float maxLength = 25;
@@ -11,6 +14,7 @@ public class MoveForwardController : MonoBehaviour
     private void Start()
     {
         startPos = transform.position;
+        transform.localScale = new Vector3(dir, 1, 1);
     }
 
     private void Update()
@@ -24,7 +28,7 @@ public class MoveForwardController : MonoBehaviour
 
     private void Move()
     {
-        transform.position += transform.right * speed * Time.deltaTime;
+        transform.position += transform.right * speed * Time.deltaTime * dir;
     }
 
 }
