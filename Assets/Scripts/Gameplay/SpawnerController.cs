@@ -10,15 +10,15 @@ public class SpawnerController : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating(nameof(Spawn), 0.5f, Random.Range(5f, 10f));
+        InvokeRepeating(nameof(Spawn), 0.2f, Random.Range(3.5f, 8f));
     }
 
     private void Spawn()
     {
         int index = Random.Range(0, spawnObjects.Count);
-        GameObject car = Instantiate(spawnObjects[index], transform.position, Quaternion.identity, transform);
-        // 设置汽车朝向
-        car.GetComponent<MoveForwardController>().dir = direction;
+        GameObject movingObject = Instantiate(spawnObjects[index], transform.position, Quaternion.identity, transform);
+        // 设置物体朝向
+        movingObject.GetComponent<MoveForwardController>().dir = direction;
     }
 
 }
