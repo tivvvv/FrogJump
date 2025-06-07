@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour
                 if (hit.collider.CompareTag("Wood"))
                 {
                     onWood = true;
+                    transform.SetParent(hit.collider.transform);
                 }
             }
             if (!onWood)
@@ -90,6 +91,14 @@ public class PlayerController : MonoBehaviour
         if (!isJump && other.CompareTag("Obstacle"))
         {
             Debug.Log("gg");
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Wood"))
+        {
+            transform.parent = null;
         }
     }
 
@@ -187,6 +196,8 @@ public class PlayerController : MonoBehaviour
         isJump = true;
         // 跳跃过程中修改排序图层
         sr.sortingLayerName = "Front";
+
+        transform.parent = null;
     }
 
     /// <summary>
