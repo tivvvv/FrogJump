@@ -64,6 +64,24 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
+        if (other.CompareTag("Water") && !isJump)
+        {
+            bool onWood = false;
+            RaycastHit2D[] result = Physics2D.RaycastAll(transform.position + Vector3.up * 0.1f, Vector2.zero);
+            foreach (var hit in result)
+            {
+                if (hit.collider == null) continue;
+                if (hit.collider.CompareTag("Wood"))
+                {
+                    onWood = true;
+                }
+            }
+            if (!onWood)
+            {
+                Debug.Log("gg");
+            }
+        }
+
         if (other.CompareTag("Border") || other.CompareTag("Car"))
         {
             Debug.Log("gg");
